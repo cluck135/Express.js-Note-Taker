@@ -1,3 +1,5 @@
+const uuid = () => Math.floor((1 + Math.random()) * 1000);
+
 let noteTitle;
 let noteText;
 let saveNoteBtn;
@@ -33,7 +35,7 @@ const getNotes = () =>
     },
   });
 
-const saveNote = (note) =>
+const saveNote = (note) => // this is used to post to the notes.json file to hold notes
   fetch('/api/notes', {
     method: 'POST',
     headers: {
@@ -70,6 +72,7 @@ const handleNoteSave = () => {
   const newNote = {
     title: noteTitle.value,
     text: noteText.value,
+    id: uuid(),//add uuid to add id here not in the server js post thingy
   };
   saveNote(newNote).then(() => {
     getAndRenderNotes();
@@ -101,6 +104,8 @@ const handleNoteView = (e) => {
   activeNote = JSON.parse(e.target.parentElement.getAttribute('data-note'));
   renderActiveNote();
 };
+
+
 
 // Sets the activeNote to and empty object and allows the user to enter a new note
 const handleNewNoteView = (e) => {
